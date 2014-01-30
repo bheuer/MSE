@@ -13,7 +13,7 @@ from copy import deepcopy
 from random import choice
 
 #Primes are stored up to MAX
-MAX = 2000
+MAX = 3000
 
 #initialize prime sieve using numpy
 p = ones(2*MAX+1,dtype = bool)
@@ -37,7 +37,7 @@ def getPrimeGraph(N):
                 G[j-1].append(i-1)
     return G
 
-def findHamiltonian(G,UPPERBOUND = 100):
+def findHamiltonian(G,reqfirst,UPPERBOUND = 100):
     '''find Hamiltonian path
     randomized algorithm taken from 
     http://stackoverflow.com/questions/1987183/randomized-algorithm-for-finding-hamiltonian-path-in-a-directed-graph'''
@@ -45,7 +45,7 @@ def findHamiltonian(G,UPPERBOUND = 100):
     n = len(G)
     
     path = [[] for i in xrange(n)]
-    cur = 0
+    cur = reqfirst
     c = 0
     while [] in path:
         UV = [g for g in G[cur] if not path[g]]
@@ -89,20 +89,21 @@ def findHamiltonian(G,UPPERBOUND = 100):
         assert p[PATH[i]+PATH[i+1]]
     return PATH
 
-def getPath(n):
+def getPath(n,reqfirst = 0):
     '''rearrange the sequence (1,...,n) in a way that two consecutive 
     numbers sum to a prime'''
     G = getPrimeGraph(n)
     while True:
         try:
-            a = findHamiltonian(deepcopy(G))
-            break
+            a = findHamiltonian(deepcopy(G),reqfirst-1)[::-1]
+            if reqfirst and a[0]==reqfirst:
+                break
         except RuntimeError:
             pass
             #we all know the implementation is hacky, don't we.
     return a
 
-for n in xrange(3,100):
-    a = getPath(n)
-    print "for n = %d a possible sequence is "%n
+for n in xrange(3,1001):
+    a = getPath(n,n)
+    print "for n = %d a possible sequence starting with n is"%n
     print a
