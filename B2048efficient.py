@@ -83,13 +83,6 @@ class AutomaticBoard(AbstractBoard):
                 break
             else:break
             
-            #Asked for a new game
-            pix = image.getpixel((self.pos[0]+136, self.pos[1]+357))
-            if pix==NEWCOLOR:
-                win32api.SetCursorPos((self.pos[0]+136,self.pos[1]+357))
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
-            
             c+=1
             if c==10:
                 self.updatePosition()
