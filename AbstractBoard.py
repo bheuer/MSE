@@ -29,6 +29,7 @@ class AbstractBoard:
     def populateRandom(self,m=1):
         #put 2 or 4 at random and return whether board is full
         B = self.emptyBoard()
+        if B==[]:return False
         for i in xrange(m):
             a,b = choice(B)
             if randint(1,10)==1:
@@ -36,7 +37,7 @@ class AbstractBoard:
             else:
                 self.set(a,b,2)
             B.remove((a,b))
-        return (B!=[])
+        return True
     
     def enumerateMargin(self):
         for a in xrange(self.n):
@@ -60,6 +61,7 @@ class AbstractBoard:
         
         self.missionmerge = m
         self.bounty = log(m_,2)*log(m,2)*0.1-1
+    
     
     def shift(self,(d0,d1),verb = False):
         count = 0

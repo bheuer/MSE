@@ -23,7 +23,7 @@ COLORS = COLORMAP.keys()+[GRIDCOLOR]
 DEPTHS = {}
 DEPTHS["unreasonable"]  = [2]*17
 DEPTHS["fast"]          = [2]*8+[3]*5+[4]*4
-DEPTHS["effective"]     = [2]*6+[3]*3+[4]*4+[5]*4
+DEPTHS["effective"]     = [2]*6+[3]*4+[4]*7
 DEPTHS["thorough"]      = [3]*4+[4]*9+[5]*4
 #Dimensions of cell:
 #106,15;121
@@ -55,7 +55,7 @@ class AutomaticBoard(AbstractBoard):
 
 	def smoothColor(self,(r,g,b)):
 		for r_,g_,b_ in COLORS:
-			if (r_-r)**2+(g_-g)**2+(b_-b)**2<=12:
+			if (r_-r)**2+(g_-g)**2+(b_-b)**2<=6:
 				return r_,g_,b_
 
 	def findGrid(self):
@@ -69,7 +69,7 @@ class AutomaticBoard(AbstractBoard):
 						for b1 in xrange(4):
 							if x+121*a1+60>=a or y+121*b1+17>=b:
 								break
-							if self.smoothColor(image.getpixel((x+120*a1+60,y+120*b1+17))) not in (GRIDCOLOR,None):
+							if self.smoothColor(image.getpixel((x+120*a1+60,y+120*b1+17))) not in COLORS:
 								break
 						else:continue
 						break
@@ -169,7 +169,7 @@ class AutomaticBoard(AbstractBoard):
 		
 		if AUTO:
 			KEYBOARD.tap_key(KEYS[m])
-			time.sleep(0.25)
+			time.sleep(0.3)
 			_,_,mis = self.shift(m,verb = True)
 			c = 0
 			while not self.updateBoard(ensure = True):
@@ -181,7 +181,7 @@ class AutomaticBoard(AbstractBoard):
 					print "#                                                              #"
 					print "################################################################"
 				KEYBOARD.tap_key(KEYS[m])
-				time.sleep(0.2)
+				time.sleep(0.3)
 		else:
 			s,c,mis = self.shift(m)
 			if not s:
@@ -211,7 +211,7 @@ class AutomaticBoard(AbstractBoard):
 
 if __name__ == "__main__":
 	#choose profile: "unreasonable", "fast", "effective", "thorough", "flexible"
-	B = AutomaticBoard(4,profile = "unreasonable")
+	B = AutomaticBoard(4,profile = "fast")
 	B.solve(AUTO = True)
 	#A = AbstractBoard(4)
 	
