@@ -19,12 +19,13 @@ def randomGame(n):
     moves = 0
     score = 0
     while True:
-        hasmoved = False
         MOVE_RED = MOVES[:]
-        while not hasmoved:
+        while True:
             m = choice(MOVE_RED)
             hasmoved,scp,_ = A.shift(m)
             score+=scp
+            if hasmoved:
+                break
             MOVE_RED.remove(m)
             if not MOVE_RED:
                 return A,moves,score
@@ -147,7 +148,7 @@ if __name__=="__main__":
     MOVSTAT = []
     NUMSTAT = []
     SCRSTAT = []
-    N = 1000000
+    N = 100000
     for i in xrange(N):
         A,moves,score = randomGame(3)
         MOVSTAT.append(moves)
